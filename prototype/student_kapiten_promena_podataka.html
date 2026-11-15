@@ -1,0 +1,83 @@
+﻿<!--Autor: Artjom Uljanov 2023/0421-->
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promena podataka tima | PSI++</title>
+    <meta name="author" content="Artjom Uljanov">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/fonts.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" class="logo">PSI++</a></li>
+                <li>
+                    <a href="student_glavna.html" class="condition-info">
+                        Glavna
+                        <span>(student)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="asistent_glavna.html" class="condition-info">
+                        Glavna
+                        <span>(asistent)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin_glavna.html" class="condition-info">
+                        Glavna
+                        <span>(admin)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="student_moj_tim.html" class="condition-info">
+                        Moj tim
+                        <span>(student, ako je u timu)</span>
+                    </a> 
+                </li>
+                <li>
+                    <a href="lista_timova.html">Lista timova</a> 
+                </li>
+                <li class="ml-auto mr-8">
+                    <a href="obavestenja.html" class="notification-button">
+                        <img src="images/bell.svg" class="small-icon"/>
+                        <span class="status-badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-link-text"><a href="profil.html" class="text-decoration-none bg-transparent p-0">Marko Marković 2023/1111</a></li>
+                <li><a href="prijava.html" class="flex-row align-center gap-8"><img src="images/log-out.svg" class="small-icon"/>Odjava</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="container">
+            <div class="flex-row flex-sb align-center">
+                <h1>Promena podataka</h1>
+                <a href="student_moj_tim.html" class="text-decoration-none">
+                    <button class="secondary-button" type="button">Nazad</button>
+                </a>
+            </div>
+            <label for="team-name">Naziv tima</label>
+            <input type="text" id="team-name" value="PSIholozi">
+            <label for="project-name">Naziv projekta</label>
+            <input type="text" id="project-name" value="PSI++">
+            <label for="project-description">Opis projekta</label>
+            <textarea id="project-description" rows="10">Platforma za PSI projekat koja dozvoljava dve različite vrste korisnika: studente i asistente. Studenti mogu da koriste sajt da nađu i prave timove, predaju projekat, pregledaju i komentarišu projekte drugih timova. Asistenti mogu da vide projekte i komentarišu isto kao studenti, ali i da naručuju projekat i određuju rokove za projektne milestone-ove. Postoji i uloga admina, koji kontroliše mejl naloge i mejling liste.</textarea>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 4px">
+                <a href="student_moj_tim.html" class="self-start">
+                    <button>Potvrdi</button>
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,3 @@
+Moguće je pokrenuti svaki HTML dokument i dobiti očekivan rezultat, ali kako bi se 
+ispratili SSU-ovi, trebalo bi ići na stranice "admin_glavna.html", "asistent_glavna.html" 
+i "student_glavna.html" jer one predstavljaju scenarije odmah nakon logovanja, za odgovarajuću ulogu.

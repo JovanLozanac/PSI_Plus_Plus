@@ -1,0 +1,15 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cascadia Code', monospace;
+}
+
+nav a {
+    font-family: 'Cascadia Code', monospace;
+}
+
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+button, input, label {
+    font-family: 'Trebuchet MS', sans-serif;
+}

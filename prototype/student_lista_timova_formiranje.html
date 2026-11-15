@@ -1,0 +1,141 @@
+﻿<!--Autor: Artjom Uljanov 2023/0421-->
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista timova (formiranje) | PSI++</title>
+    <meta name="author" content="Artjom Uljanov">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/fonts.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" class="logo">PSI++</a></li>
+                <li>
+                    <a href="student_glavna.html" class="condition-info">
+                        Glavna
+                        <span>(student)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="asistent_glavna.html" class="condition-info">
+                        Glavna
+                        <span>(asistent)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin_glavna.html" class="condition-info">
+                        Glavna
+                        <span>(admin)</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="student_moj_tim.html" class="condition-info">
+                        Moj tim
+                        <span>(student, ako je u timu)</span>
+                    </a> 
+                </li>
+                <li>
+                    <a href="lista_timova.html">Lista timova</a> 
+                </li>
+                <li class="ml-auto mr-8">
+                    <a href="obavestenja.html" class="notification-button">
+                        <img src="images/bell.svg" class="small-icon"/>
+                        <span class="status-badge">3</span>
+                    </a>
+                </li>
+                <li class="nav-link-text"><a href="profil.html" class="text-decoration-none bg-transparent p-0">Marko Marković 2023/1111</a></li>
+                <li><a href="prijava.html" class="flex-row align-center gap-8"><img src="images/log-out.svg" class="small-icon"/>Odjava</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="container">
+            <div class="flex-row flex-sb align-center">
+                <h1>Lista timova</h1>
+                <div class="flex-row gap-8">
+                    <a href="student_novi_tim.html" class="text-decoration-none">
+                        <button class="self-start">Novi tim</button>
+                    </a>
+                    <a href="student_glavna.html" class="text-decoration-none">
+                        <button class="secondary-button self-start">Nazad</button>
+                    </a>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ime tima</th>
+                        <th>Članovi</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tim 1</td>
+                        <td>Marko Marković 2023/1111, Milos Petrović 2023/1112, Ana Petrović 2023/1113 (3/4)</td>
+                        <td>
+                            <a href="student_zahtev_poslat.html" class="text-decoration-none"><button>Pridruži se</button></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tim 2</td>
+                        <td>Petar Petrović 2023/2222, Jovana Jovanović 2023/2223 (2/4)</td>
+                        <td>
+                            <a href="student_zahtev_poslat.html" class="text-decoration-none"><button>Pridruži se</button></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tim 3</td>
+                        <td>Nikola Nikolić 2023/3333 (1/4)</td>
+                        <td>
+                            <a href="student_zahtev_poslat.html" class="text-decoration-none"><button>Pridruži se</button></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tim 4</td>
+                        <td>Andrej Milošević 2023/4444, Milos Petrović 2023/4445, Ana Petrović 2023/4446, Stefan Stefanović 2023/4447 (4/4)</td>
+                        <td>
+                            <button class="secondary-button" disabled>Tim popunjen</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2 style="margin-top: 24px;">Studenti koji nisu u timu</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Email</th>
+                        <th>Indeks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Marko</td>
+                        <td>Marković</td>
+                        <td>mm230111@student.etf.bg.ac.rs</td>
+                        <td>2023/0111</td>
+                    </tr>
+                    <tr>
+                        <td>Milos</td>
+                        <td>Petrovic</td>
+                        <td>mp230222d@student.etf.bg.ac.rs</td>
+                        <td>2023/0222</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
+
+
+
+
+
