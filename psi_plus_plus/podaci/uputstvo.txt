@@ -1,0 +1,8 @@
+Uputstvo za ucitavanje inicijalnih podataka
+
+1) Napraviti bazu 'psi_db_model' na MySQL serveru sa korisnikom 'admin' sa sifrom '123'
+2) Pokrenuti db.sql iz ovog foldera
+3) Napraviti foldere 'projekti/zadatak_4/tim_3' i 'projekti/latest/tim_3'
+4) U oba foldera prekopirati folder 'PSI++' (potrebno da bi folderi bili konzistentni sa podacima iz baze)
+
+Sifre korisnika svih korisnika je '12abcd34', osim admin cija je sifra 'admin'.
