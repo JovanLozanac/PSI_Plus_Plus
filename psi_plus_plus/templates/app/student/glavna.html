@@ -1,0 +1,48 @@
+﻿<!-- Autor Luka Milic 2022/0182 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Glavna | PSI++{% endblock %}
+
+{% block content %}
+<section class="container">
+    <h1>Glavna</h1>
+    <p><strong>Uloga:</strong> Student</p>
+    <h2 class="mt-16">Moj tim</h2>
+    {% if student.trenutno_u_timu %}
+    <p><strong>Naziv tima:</strong> {{ tim.nazivtima }}</p>
+    <a href="{% url 'prikaz_tima' tim.timid %}" class="text-decoration-none"><button class="secondary-button">Pregledaj tim</button></a>
+    {% else %}
+    <p>Trenutno niste u timu</p>
+    {% endif %}
+    <h2 class="mt-16">Zadaci</h2>
+    <ul class="task-list">
+        {% for zadatak in zadaci %}
+        <li>
+            <h3>{{ zadatak.naslov }}</h3>
+            <p>{{ zadatak.tekst }}</p>
+            <div class="flex-row align-center flex-sb mt-4">
+                <p class="success-text">U toku</p>
+                <div class="flex-row align-center gap-16">
+                    <p class="secondary-text">Rok: {{ zadatak.rok|date:"d.m.Y. H:i" }}</p>
+                    {% if zadatak.je_formiranje_timova %}
+                    <a href="{% url 'lista_timova' %}" class="text-decoration-none">
+                        <button>Pregledaj timove</button>
+                    </a>
+                    {% elif tim %}
+                    <a href="{% url 'prikaz_tima' tim.timid %}" class="text-decoration-none">
+                        <button>Pregledaj</button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+        {% empty %}
+        Nema zadataka u toku.
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
+
+
+

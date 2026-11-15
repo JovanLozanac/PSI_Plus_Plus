@@ -1,0 +1,66 @@
+<!-- Autor David Radivojevic 2021/0504 -->
+<!-- Autor Luka Milic 2022/0182 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Tabela rešenja | PSI++{% endblock %}
+
+{% block content %}
+
+<section class="container">
+    <div class="flex-row flex-sb align-center">
+        <h1>Detalji zadatka</h1>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="flex-row flex-sb align-center">
+            <h2> {{zadatak.naslov}} </h2>
+        </div>
+        <p> {{zadatak.tekst}} </p>
+        <div class="flex-row flex-sb mt-4">
+            {% if zadatak.u_toku %}
+                <p class="success-text"> U toku </p>
+            {% else %}
+                <p class="danger-text"> Završeno </p>
+            {% endif %}
+            <p class="secondary-text"> {{zadatak.rok}} </p>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Ime tima</th>
+                <th>Broj clanova</th>
+                <th>Predato</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for podatak in podaci %}
+
+                <tr>
+
+                    <td>{{podatak.ime_tima}}</td>
+                    <td>{{podatak.broj_clanova}}</td>
+
+                    {% if podatak.predao %}
+                        <td>
+                            <p class="success-text">{{podatak.datum_predaje}}</p>
+                        </td>
+                    {% else %}
+                        <td>
+                            <p class="danger-text">Ne</p>
+                        </td>
+                    {% endif %}
+
+                    <td>
+                        <a  href="{% url 'asistent:prikaz_resenja_zadatka' podatak.timid zadatak.zadid %}"><button>Pogledaj rešenje </button></a>
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+</section>
+{% endblock %}

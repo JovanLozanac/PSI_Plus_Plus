@@ -1,0 +1,48 @@
+<!-- Autor Artjom Uljanov 2023/0421 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Profil | PSI++{% endblock %}
+
+{% block content %}
+<section class="container max-w-700">
+    <h1 class="centered-text">Profil</h1>
+    <div class="profile-info">
+        <div>
+            <p class="secondary-text mt-12">Ime</p>
+            <p class="mb-16">{{ user.first_name }}</p>
+        </div>
+        <div>
+            <p class="secondary-text mt-12">Prezime</p>
+            <p class="mb-16">{{ user.last_name }}</p>
+        </div>
+        <div>
+            <p class="secondary-text mt-12">Korisničko ime</p>
+            <p class="mb-16">{{ user.username }}</p>
+        </div>
+        <div>
+            <p class="secondary-text mt-12">Email</p>
+            <p class="mb-16">{{ user.email }}</p>
+        </div>
+        {% if student %}
+        <div>
+            <p class="secondary-text mt-12">Indeks</p>
+            <p class="mb-16">{{ student.indeks }}</p>
+        </div>
+        {% endif %}
+        <div>
+            <p class="secondary-text mt-12">Uloga</p>
+            <p class="mb-16">{{ user.role }}</p>
+        </div>
+    </div>
+
+    <a href="{% url 'promena_lozinke' %}" class="text-decoration-none self-center">
+        <button>Promeni lozinku</button>
+    </a>
+</section>
+{% endblock %}
+
+
+
+
+

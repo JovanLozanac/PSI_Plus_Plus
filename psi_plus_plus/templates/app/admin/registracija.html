@@ -1,0 +1,86 @@
+<!-- Autor Artjom Uljanov 2023/0421 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Registracija korisnika | PSI++{% endblock %}
+
+{% block content %}
+<section class="container small-container">
+    <div class="flex-row flex-sb align-center mb-16">
+        <h1>Registracija korisnika</h1>
+        <a href="{% url 'upravljanje:glavna' %}" class="text-decoration-none">
+            <button class="secondary-button self-start">Nazad</button>
+        </a>
+    </div>
+    <form method="post" class="self-center align-stretch">
+        {% csrf_token %}
+        <div class="w-100">
+            <label>Uloga</label>
+            <div class="flex-row align-center flex-sa w-100 mb-16">
+                <div class="flex-row align-center">
+                    <input type="radio" id="student" name="uloga" value="student"
+                           {% if izabrana_uloga == "student" %}checked{% endif %} />
+                    <label for="student">Student</label>
+                </div>
+                <div class="flex-row align-center">
+                    <input type="radio" id="asistent" name="uloga" value="asistent"
+                           {% if izabrana_uloga == "asistent" %}checked{% endif %} />
+                    <label for="asistent">Asistent</label>
+                </div>
+                <div class="flex-row align-center">
+                    <input type="radio" id="admin" name="uloga" value="admin"
+                           {% if izabrana_uloga == "admin" %}checked{% endif %} />
+                    <label for="admin">Admin</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-error">{{ korisnik_forma.non_field_errors }}</div>
+        {% for f in korisnik_forma %}
+          <div class="form-row">
+            <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+            <div class="form-input">
+              {{ f }}
+
+            </div>
+          </div>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+
+        <div class="role-fields" data-role="student">
+            <div class="form-error">{{ student_forma.non_field_errors }}</div>
+            {% for f in student_forma %}
+              <div class="form-row">
+                <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                <div class="form-input">{{ f }}</div>
+              </div>
+              <div class="form-error">{{ f.errors }}</div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="self-center mt-16">Registruj</button>
+    </form>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const roleInputs = document.querySelectorAll('input[name="uloga"]');
+    const roleFields = document.querySelectorAll(".role-fields");
+
+    function updateVisibility() {
+        const selected = document.querySelector('input[name="uloga"]:checked').value;
+        roleFields.forEach(el => {
+            const active = el.dataset.role === selected;
+            el.style.display = active ? "block" : "none";
+            el.querySelectorAll("input, select, textarea").forEach(input => {
+                input.disabled = !active;
+            });
+        });
+    }
+
+    roleInputs.forEach(input => input.addEventListener("change", updateVisibility));
+    updateVisibility();
+});
+</script>
+{% endblock %}

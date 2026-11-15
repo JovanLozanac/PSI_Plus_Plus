@@ -1,0 +1,25 @@
+﻿<!-- Autor Jovan Lozanac 2023/0084-->
+<!-- Autor Luka Milic 2022/0182 -->
+{% extends "app/base.html" %}
+
+{% block title %}Zahtev poslat | PSI++{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="flex-row flex-sb align-center">
+        <h1>Zahtev poslat</h1>
+        <div class="flex-row gap-8">
+            <a href="{% url 'lista_timova' %}" class="text-decoration-none">
+                <button class="secondary-button self-start">Nazad</button>
+            </a>
+        </div>
+    </div>
+    <p>{{ poruka }}</p>
+</section>
+{% endblock %}
+
+
+
+
+
+

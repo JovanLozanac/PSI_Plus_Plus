@@ -1,0 +1,24 @@
+<!-- Autor Luka Milic 2022/0182 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Pravljenje tima | PSI++{% endblock %}
+
+{% block content %}
+<section class="container small-container">
+    <div class="flex-row flex-sb align-center">
+        <h1>Novi tim</h1>
+        <a href="{% url 'lista_timova' %}" class="text-decoration-none">
+            <button class="secondary-button self-start">Nazad</button>
+        </a>
+    </div>
+    <form action="{% url 'student:pravljenje_tima' %}" style="align-self: center; max-width: 400px;" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div style="display: flex; flex-direction: row; align-items: center; gap: 4px">
+            <button type="submit">Napravi tim</button>
+        </div>
+    </form>
+    <p>{{ poruka }}</p>
+</section>
+{% endblock %}

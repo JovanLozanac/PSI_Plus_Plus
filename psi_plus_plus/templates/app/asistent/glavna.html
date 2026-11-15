@@ -1,0 +1,77 @@
+﻿<!-- Autor Luka Milic 2022/0182 -->
+<!-- Autor David Radivojevic 2021/0504 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Glavna | PSI++{% endblock %}
+
+{% block content %}
+<section class="container">
+    <h1>Glavna</h1>
+    <p><strong>Uloga:</strong> Asistent</p>
+    <div class="flex-row flex-sb align-center">
+        <h2>Zadaci</h2>
+        <a href="{% url 'asistent:kreiranje_zadatka' %}" class="text-decoration-none">
+            <button class="self-start">Novi zadatak</button>
+        </a>
+    </div>
+    <ul class="task-list">
+        {% for zadatak in zadaci %}
+        <li>
+            <h3>{{ zadatak.naslov }}</h3>
+            <p>{{ zadatak.tekst }}</p>
+            <div class="flex-row flex-sb mt-4">
+                {% if zadatak.u_toku %}
+                <p class="success-text">U toku</p>
+                {% else %}
+                <p class="danger-text">Završeno</p>
+                {% endif %}
+                <div class="flex-row align-center gap-16">
+                    <p class="secondary-text">Rok: {{ zadatak.rok|date:"d.m.Y. H:i" }}</p>
+                    {% if zadatak.je_formiranje_timova %}
+                    <a href="{% url 'lista_timova' %}" class="text-decoration-none">
+                        <button>Pregledaj timove</button>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'asistent:tabela_resenja' zadatak.zadid %}" class="text-decoration-none">
+                        <button>Pregledaj</button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+        {% empty %}
+        <p>Nema zadataka trenutno</p>
+        {% endfor %}
+    </ul>
+    <div class="flex-row flex-sb align-center">
+        <h2>Obaveštenja</h2>
+        <a href="{% url 'asistent:kreiranje_obavestenja' %}" class="text-decoration-none">
+            <button class="self-start">Novo Obaveštenje</button>
+        </a>
+    </div>
+
+    <ul class="notification-list">
+        {% for obavestenje in obavestenja %}
+
+            <li>
+                <h3>{{ obavestenje.obid.naslov}}</h3>
+                <p>{{ obavestenje.obid.tekst}}</p>
+                <div class="flex-row flex-sb mt-4">
+                    <p class="secondary-text"></p>
+                    <p class="secondary-text">{{ obavestenje.korid.first_name }} {{ obavestenje.korid.last_name }}</p>
+                </div>
+            </li>
+
+        {% empty %}
+
+            <p>Nema obavestenja</p>
+
+        {% endfor %}
+    </ul>
+
+</section>
+{% endblock %}
+
+
+

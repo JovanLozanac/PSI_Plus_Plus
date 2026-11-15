@@ -1,0 +1,78 @@
+<!-- Autor Jovan Lozanac 2023/0084 -->
+<!-- Autor David Radivojevic 2021/0504 -->
+<!-- Autor Luka Milic 2022/0182 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Prikaz rešenja zadatka | PSI++{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+
+<section class="container">
+    <h1>Prikaz rešenja</h1>
+    <p class="secondary-text">Naziv tima</p>
+    <p class="highlighted-text">{{projekat_info.nazivtima}}</p>
+    <p class="secondary-text mt-12">Naziv projekta</p>
+    <p class="highlighted-text">{{projekat_info.imeprojekta}}</p>
+    <p class="secondary-text mt-12">Opis projekta</p>
+    <p class="mb-16">{{projekat_info.opisprojekta}}</p>
+    <div class="flex-row flex-sb align-center">
+        <form action="{% url 'asistent:preuzimanje_projekta' projekat_info.timid zadatak.zadid %}" method="get">
+            <h2>Repozitorijum</h2>
+            <a><button class="flex-row align-center gap-8"><img src="{% static 'images/folder-archive.svg' %}" class="small-icon"/>Preuzeti ZIP</button></a>
+        </form>
+    </div>
+    {%if sadrzaj %}
+
+        <table class="file-explorer-table">
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Predato</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for stavka in sadrzaj %}
+
+                <tr>
+                    {% if stavka.je_folder %}
+                        <td><a href="{% url 'prikaz_direktorijuma' projekat_info.timid %}?putanja={{ stavka.putanja }}" class="file-link"><img
+                                src="{% static 'images/folder.svg' %}" class="small-icon"/>{{ stavka.ime }}</a></td>
+                    {% else %}
+                        <td><a href="{% url 'prikaz_fajla' projekat_info.timid %}?putanja={{ stavka.putanja }}" class="file-link" target="_blank"><img
+                                src="{% static 'images/file.svg' %}" class="small-icon"/>{{ stavka.ime }}</a></td>
+                    {% endif %}
+                    <td>{{ stavka.vreme }}</td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {% else %}
+
+    <p>Prazan direktorijum.</p>
+
+    {% endif %}
+
+    {% if not zadatak.u_toku %}
+    <div class="flex-row flex-sb align-center">
+        <h2>Bodovanje zadatka: {{zadatak.naslov}}</h2>
+        {% if ocena %}
+            <a href="{% url 'asistent:ocenjivanje_resenja' tim_id=projekat_info.timid zad_id=zadatak.zadid %}">
+                <button type="button" style="margin: 0;">Izmeni ocenu</button></a>
+        {% else %}
+            <a href="{% url 'asistent:ocenjivanje_resenja' tim_id=projekat_info.timid zad_id=zadatak.zadid %}">
+                <button type="button" style="margin: 0;">Oceni resenje</button></a>
+        {% endif %}
+
+    </div>
+    {% endif %}
+</section>
+
+
+{% endblock %}

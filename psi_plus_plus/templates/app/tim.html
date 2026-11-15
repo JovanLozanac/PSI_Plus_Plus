@@ -1,0 +1,132 @@
+<!-- Autor Jovan Lozanac 2023/0084 -->
+<!-- Autor Luka Milic 2022/0182 -->
+<!-- Autor David Radivojevic 2021/0504 -->
+
+{% extends "app/base.html" %}
+
+{% load static %}
+
+{% block title %}Tim | PSI++{% endblock %}
+
+{% block content %}
+<section class="container">
+    {% if ulogovan_clan_tima %}
+    <h1>Moj tim</h1>
+    {% else %}
+    <h1>Pregled tima</h1>
+    {% endif %}
+    <p class="secondary-text">Naziv tima</p>
+    <p class="highlighted-text">{{ tim.nazivtima }}</p>
+    <p class="secondary-text mt-12">Naziv projekta</p>
+    {% if tim.imeprojekta is None %}
+    <p>Projekat nema ime.</p>
+    {% else %}
+    <p class="highlighted-text">{{ tim.imeprojekta }}</p>
+    {% endif %}
+    <p class="secondary-text mt-12">Opis projekta</p>
+    <p>
+        {% if tim.opisprojekta is None %}
+        Projekat nema opis.
+        {% else %}
+        {{ tim.opisprojekta }}
+        {% endif %}
+    </p>
+    <p class="secondary-text mt-12">Članovi tima</p>
+    <div class="flex-row align-center gap-16">
+        <p>{{ kapiten.korid.first_name }} {{ kapiten.korid.last_name }} {{ kapiten.indeks }} (kapiten)</p>
+        {% for clan in clanovi %}
+        <p>{{ clan.korid.first_name }} {{ clan.korid.last_name }} {{ clan.indeks }}</p>
+        {% endfor %}
+    </div>
+    {% if student.jekapiten == 1 and ulogovan_clan_tima and formiranje_timova_dozvoljeno %}
+    <div style="display: flex; flex-direction: row; align-items: center; gap: 4px; margin-top: 16px;">
+        {% if tim.br_clanova < 4 %}
+        <a href="{% url 'student:prikaz_zahteva' %}" style="align-self: flex-start; text-decoration: none;">
+            <button class="condition-info">
+                <div>Zahtevi <span class="status-badge">{{ broj_zahteva }}</span></div>
+            </button>
+        </a>
+        {% endif %}
+        <a href="{% url 'student:azuriranje_tima' %}" class="text-decoration-none">
+            <button class="condition-info">
+                <div><img src="{% static 'images/pencil.svg' %}" class="small-icon"/>Promeni podatke</div>
+            </button>
+        </a>
+    </div>
+    {% endif %}
+    <div class="flex-row flex-sb align-center">
+        <form action="{% url 'preuzimanje_projekta' tim.timid %}" method="get">
+            <h2>Repozitorijum</h2>
+            <a><button class="flex-row align-center gap-8"><img src="{% static 'images/folder-archive.svg' %}" class="small-icon"/>Preuzeti ZIP</button></a>
+        </form>
+    </div>
+
+    {% if sadrzaj_projekta %}
+        <table class="file-explorer-table">
+            <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Predato</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for stavka in sadrzaj_projekta %}
+                <tr>
+                    {% if stavka.je_folder%}
+                        <td><a href="{% url 'prikaz_direktorijuma' tim.timid %}?putanja={{ stavka.putanja }}" class="file-link"><img
+                                src="{% static 'images/folder.svg' %}" class="small-icon"/>{{ stavka.ime }}</a></td>
+                    {% else %}
+                        <td><a href="{% url 'prikaz_fajla' tim.timid %}?putanja={{ stavka.putanja }}" class="file-link" target="_blank"><img
+                                src="{% static 'images/file.svg' %}" class="small-icon"/>{{ stavka.ime }}</a></td>
+                    {% endif %}
+                    <td>{{stavka.vreme}}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {%else%}
+
+    <p>Prazan direktorijum.</p>
+
+    {%endif%}
+
+    {% if student.jekapiten and ulogovan_clan_tima %}
+    <form action="{% url 'student:cuvanje_projekta' %}" class="flex-row flex-sb align-center" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2 class="condition-info">
+            Ažuriranje projekta
+        </h2>
+        <div class="flex-row align-center gap-8">
+            <input type="file" id="file" name="file" style="width: auto; margin: 0;" accept=".zip">
+            <button type="submit" style="margin: 0;"><img src="{% static 'images/upload.svg' %}" class="small-icon"/>Ažurirati</button>
+        </div>
+    </form>
+    {% endif %}
+    {% if asistent or ulogovan_clan_tima %}
+    <h2 style="margin-top: 32px;">Ocene</h2>
+    {% for ocena in ocene %}
+    <div style="display: flex; flex-direction: column; gap: 16px; border: 1px solid #ccc; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+        <div class="flex-row flex-sb align-center">
+            <h2>{{ ocena.zadid.naslov }}</h2>
+            <p>Ocena: {{ ocena.bodovi }}/100</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+            <p class="secondary-text">{{ ocena.komentar }}</p>
+        </div>
+        <div class="flex-row flex-sb mt-4">
+            <p>Asistent: {{ ocena.korid.korid.first_name }} {{ ocena.korid.korid.last_name }}</p>
+        </div>
+    </div>
+    {% empty %}
+
+        <p>Trenutno nema ocenjenih zadataka.</p>
+
+    {% endfor %}
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

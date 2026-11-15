@@ -1,0 +1,28 @@
+﻿<!-- Autor Artjom Uljanov 2023/0421 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Prijava | PSI++{% endblock %}
+
+{% block content %}
+<section class="container small-container">
+    <h1 class="centered-text">Prijava</h1>
+    <form class="self-center" method="post">
+        {% csrf_token %}
+        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+        {{ form.username }}
+        <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+        {{ form.password }}
+
+        <button type="submit" class="self-center mt-16">Prijava</button>
+    </form>
+    {% if form.errors %}
+        <p>Pogrešno korisničko ime ili lozinka.</p>
+    {% endif %}
+</section>
+{% endblock %}
+
+
+
+
+

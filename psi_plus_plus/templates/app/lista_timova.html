@@ -1,0 +1,87 @@
+<!-- Autor Jovan Lozanac 2023/0084 -->
+<!-- Autor Luka Milic 2022/0182 -->
+{% extends "app/base.html" %}
+
+{% block title %}Glavna | PSI++{% endblock %}
+
+{% block content %}
+
+    <section class="container">
+        <div class="flex-row flex-sb align-center">
+            <h1>Lista timova</h1>
+            <div class="flex-row gap-8">
+                {% if user.student and not student.trenutno_u_timu and formiranje_timova %}
+                <a href="{% url 'student:pravljenje_tima' %}" class="text-decoration-none">
+                    <button class="self-start">Novi tim</button>
+                </a>
+                {% endif %}
+                <a href="{% url 'homepage' %}" class="text-decoration-none">
+                    <button class="secondary-button self-start">Nazad</button>
+                </a>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ime tima</th>
+                    <th>Članovi</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for tim, zahtev_postoji in timovi_zahtevi %}
+                <tr>
+                    <td>{{ tim.nazivtima }}</td>
+                    <td>
+                        {% for clan in tim.utimu_set.all %}
+                            {{ clan.korid.indeks }} {{ clan.korid.korid.first_name }} {{ clan.korid.korid.last_name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                        ({{ tim.br }} od 4)
+                    </td>
+                    <td>
+                        <a href="{% url 'prikaz_tima' tim.timid %}" class="text-decoration-none"><button>Pregledaj</button></a>
+                        {% if user.student %}
+                        {% if not student.trenutno_u_timu and tim.br < 4 and formiranje_timova and not zahtev_postoji %}
+                        <form action="{% url 'student:zahtev' %}" method="post" style="display: inline">
+                            {% csrf_token %}
+                            <button type="submit" name="timid" value="{{ tim.timid }}">Pridruži se</button>
+                        </form>
+                        {% elif zahtev_postoji %}
+                            <button class="secondary-button" disabled="">Već ste poslali zahtev ovom timu</button>
+                        {% elif not formiranje_timova %}
+                            <button class="secondary-button" disabled="">Formiranje timova nije dozvoljeno</button>
+                        {% elif student.trenutno_u_timu %}
+                            <button class="secondary-button" disabled="">Već ste u timu</button>
+                        {% else %}
+                            <button class="secondary-button" disabled="">Tim popunjen</button>
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <h2>Studenti koji nisu u timu</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Email</th>
+                    <th>Indeks</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for student in nema_tim %}
+                <tr>
+                    <td>{{ student.korid.first_name }}</td>
+                    <td>{{ student.korid.last_name }}</td>
+                    <td>{{ student.korid.email }}</td>
+                    <td>{{ student.indeks }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

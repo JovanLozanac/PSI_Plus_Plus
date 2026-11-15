@@ -1,0 +1,24 @@
+﻿<!-- Autor Artjom Uljanov 2023/0421 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Brisanje svih studenata | PSI++{% endblock %}
+
+{% block content %}
+<section class="container">
+    <h1>Brisanje svih studenata</h1>
+    <p>Da li ste sigurni da želite da obrišete sve studente?</p>
+    {% if greska %}
+        <p class="form-error">{{ greska }}</p>
+    {% endif %}
+    <div class="flex-row gap-8">
+        <form action="{% url 'upravljanje:brisanje_svih_studenata' %}" method="post" class="text-decoration-none w-auto">
+            {% csrf_token %}
+            <button type="submit" class="self-start">Da</button>
+        </form>
+        <a href="{% url 'upravljanje:glavna' %}" class="text-decoration-none">
+            <button type="button" class="secondary-button self-start">Ne</button>
+        </a>
+    </div>
+</section>
+{% endblock %}

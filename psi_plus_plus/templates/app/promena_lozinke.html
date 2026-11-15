@@ -1,0 +1,33 @@
+﻿<!-- Autor Artjom Uljanov 2023/0421 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Promena lozinke | PSI++{% endblock %}
+
+{% block content %}
+<section class="container small-container">
+    <div class="flex-row flex-sb align-center">
+        <h1>Promena lozinke</h1>
+        <a href="{% url 'profil' %}" class="text-decoration-none">
+            <button class="secondary-button" type="button">Nazad</button>
+        </a>
+    </div>
+    <form method="post" class="self-center align-stretch">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        {% for f in form %}
+          <div class="form-row">
+            <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+            <div class="form-input">{{ f }}</div>
+          </div>
+          <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+        <button type="submit" class="self-center mt-16">Promeni lozinku</button>
+    </form>
+</section>
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,48 @@
+<!-- Autor Luka Milic 2022/0182 -->
+
+{% extends "app/base.html" %}
+
+{% block title %}Obrada zahteva | PSI++{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="flex-row flex-sb align-center">
+        <h1>Obrada zahteva za učlanjenje</h1>
+        <a href="{% url 'prikaz_tima' student.tim.timid %}" class="text-decoration-none">
+            <button class="secondary-button self-start">Nazad</button>
+        </a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Email</th>
+                <th>Indeks</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for zahtev in zahtevi %}
+            <tr>
+                <form action="{% url 'student:obrada_zahteva' zahtev.korid.korid.korid %}" method="post">
+                    {% csrf_token %}
+                    <td>{{ zahtev.korid.korid.first_name }}</td>
+                    <td>{{ zahtev.korid.korid.last_name }}</td>
+                    <td>{{ zahtev.korid.korid.email }}</td>
+                    <td>{{ zahtev.korid.indeks }}</td>
+                    <td>
+                        <button type="submit" name="prihvacen" value="1">Prihvati</button>
+                        <button type="submit" name="prihvacen" value="0">Odbij</button>
+                    </td>
+                </form>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Nemate zahteva za ulazak u tim trenutno.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

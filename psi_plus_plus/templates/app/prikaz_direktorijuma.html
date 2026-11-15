@@ -1,0 +1,54 @@
+<!-- Autor: David Radivojevic 2021/0504 -->
+
+{% extends "app/base.html" %}
+
+{% load static %}
+
+{% block title %} Pregled direktorijuma | PSI++ {% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="flex-row flex-sb mt-4">
+        <h1 class="centered-text">Pregled direktorijuma: {{ime_trenutnog_foldera}}</h1>
+            <button class="secondary-button" onclick="history.back()">Nazad</button>
+    </div>
+
+    {%if sadrzaj_direktorijuma%}
+
+        <table class="file-explorer-table">
+            <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Predato</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for stavka in sadrzaj_direktorijuma %}
+
+                <tr>
+                    {% if stavka.je_folder%}
+                        <td><a href="{% url 'prikaz_direktorijuma' tim.timid %}?putanja={{ stavka.putanja }}" class="file-link"><img
+                                src="{% static 'images/folder.svg' %}" class="small-icon"/>{{ stavka.ime }}</a></td>
+                    {% else %}
+                        <td><a href="{% url 'prikaz_fajla' tim.timid %}?putanja={{ stavka.putanja }}" class="file-link" target="_blank"><img
+                                src="{% static 'images/file.svg' %}" class="small-icon"/>{{ stavka.ime }}</a></td>
+                    {% endif %}
+                    <td>{{stavka.vreme}}</td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {% else %}
+
+    <p>Prazan direktorijum.</p>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

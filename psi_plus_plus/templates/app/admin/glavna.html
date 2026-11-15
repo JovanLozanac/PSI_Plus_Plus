@@ -1,0 +1,118 @@
+﻿<!-- Autor Artjom Uljanov 2023/0421 -->
+
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block title %}Glavna | PSI++{% endblock %}
+
+{% block content %}
+<section class="container">
+    <h1>Glavna</h1>
+    <p><strong>Uloga:</strong> Admin</p>
+    <div class="flex-row flex-sb align-center">
+        <h2>Upravljanje korisnicima</h2>
+        <div class="flex-row gap-8">
+            <a href="{% url 'upravljanje:registracija_grupe_studenata' %}"><button>
+                <img src="{% static 'images/users-round.svg' %}" class="small-icon"/>Registruj grupu studenata
+            </button></a>
+            <a href="{% url 'upravljanje:registracija_korisnika' %}"><button>
+                <img src="{% static 'images/user-round-plus.svg' %}" class="small-icon"/>Registruj korisnika
+            </button></a>
+        </div>
+    </div>
+    <p id="korisnici-greska" class="form-error" style="display: none;"></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Korisničko ime</th>
+                <th>Email</th>
+                <th>Indeks</th>
+                <th>Uloga</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody id="korisnici-tabela">
+        {% for korisnik in korisnici %}
+            <tr data-korid="{{ korisnik.korid }}">
+                <td>{{ korisnik.username }}</td>
+                <td>{{ korisnik.email }}</td>
+                <td>{% if korisnik.je_student %}{{ korisnik.student.indeks }}{% endif %}</td>
+                <td>{{ korisnik.role }}</td>
+                <td>
+                    <button type="button" class="obrisi-korisnika-btn" data-delete-url="{% url 'upravljanje:obrisi_korisnika' korid=korisnik.korid %}">
+                        <img src="{% static 'images/trash.svg' %}" class="small-icon"/>
+                        Obriši
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'upravljanje:brisanje_svih_studenata' %}" class="text-decoration-none"><button>
+        <img src="{% static 'images/trash.svg' %}" class="small-icon"/>
+        Izbriši sve studente
+    </button></a>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    const csrfToken = '{{ csrf_token }}';
+    const greskaElement = document.getElementById('korisnici-greska');
+    const tabela = document.getElementById('korisnici-tabela');
+
+    function prikaziGresku(poruka) {
+        greskaElement.textContent = poruka;
+        greskaElement.style.display = 'block';
+    }
+
+    function sakrijGresku() {
+        greskaElement.textContent = '';
+        greskaElement.style.display = 'none';
+    }
+
+    tabela.addEventListener('click', async function (event) {
+        const dugme = event.target.closest('.obrisi-korisnika-btn');
+        if (!dugme) {
+            return;
+        }
+
+        const korid = dugme.closest('tr').dataset.korid;
+        const deleteUrl = dugme.dataset.deleteUrl;
+        if (!confirm('Da li ste sigurni da želite da obrišete ovog korisnika?')) {
+            return;
+        }
+
+        sakrijGresku();
+        dugme.disabled = true;
+
+        try {
+            const odgovor = await fetch(deleteUrl, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                },
+            });
+
+            const podaci = await odgovor.json();
+
+            if (!odgovor.ok) {
+                prikaziGresku(podaci.error || 'Brisanje korisnika nije uspelo.');
+                dugme.disabled = false;
+                return;
+            }
+
+            const red = tabela.querySelector(`tr[data-korid="${korid}"]`);
+            if (red) {
+                red.remove();
+            }
+        } catch (error) {
+            prikaziGresku('Došlo je do greške pri brisanju korisnika.');
+            dugme.disabled = false;
+        }
+    });
+})();
+</script>
+{% endblock %}
+

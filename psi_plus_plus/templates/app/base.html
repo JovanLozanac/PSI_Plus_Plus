@@ -1,0 +1,74 @@
+<!-- Autor Jovan Lozanac 2023/0084-->
+<!-- Autor Artjom Uljanov 2023/0421 -->
+<!-- Autor David Radivojevic 2021/0504 -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}PSI++{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'styles/common.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/fonts.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" class="logo">PSI++</a></li>
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'homepage' %}">
+                        <button>
+                            Glavna
+                        </button>
+                    </a>
+                </li>
+                <li>
+                   <a href="{% url 'lista_timova' %}"><button>Lista timova</button></a>
+                </li>
+                {% if user.student and student.trenutno_u_timu %}
+                <li>
+                    <button><a href="{% url 'prikaz_tima' student.tim.timid %}">Moj tim</a></button>
+                </li>
+                {% endif %}
+                <li class="ml-auto mr-8">
+                   <a href="{% url 'prikaz_obavestenja' %}"><button class="notification-button">
+                        <img src="{% static 'images/bell.svg' %}" class="small-icon"/>
+                        <span class="status-badge">{{ broj_neprocitanih }}</span>
+                    </button></a>
+                </li>
+                <li class="nav-link-text">
+                    <a href="{% url 'profil' %}" class="text-decoration-none bg-transparent p-0">
+                    {{ user.first_name }} {{ user.last_name }} {% if student %}{{ student.indeks }}{% endif %}
+                    </a>
+                </li>
+                <li>
+                    <form method="post" action="{% url 'odjava' %}">
+                      {% csrf_token %}
+                      <button type="submit" class="flex-row align-center gap-8"><img src="{% static 'images/log-out.svg' %}" class="small-icon" alt="logout"/>Odjava</button>
+                    </form>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p></p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>
